@@ -20,32 +20,34 @@ source $dir/functions/third-party/vlc
 # Install Third-Party Applications
 function thirdparty {
     eval `resize`
+
     THIRDPARTY=$(whiptail \
-        --notags \
         --title "Third-Party Installation" \
-        --menu "\nWhat third-party software would you like to install?" \
         --ok-button "Install" \
         --cancel-button "Go Back" \
+        --checklist "\nWhat third-party software would you like to install?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
-        'dropbox'           'Dropbox' \
-        'fontforge'         'FontForge' \
-        'google-chrome'     'Google Chrome' \
-        'inkscape'          'Inkscape' \
-        'keybase'           'Keybase' \
-        'minecraft'         'Minecraft' \
-        'oracle-java'       'Oracle Java' \
-        'rvm'               'Ruby Version Manager (RVM)' \
-        'slack'             'Slack' \
-        'spotify'           'Spotify' \
-        'steam'             'Steam' \
-        'synergy'           'Synergy' \
-        'sublime-text'      'Sublime Text 3' \
-        'vlc'               'VLC Player' \
+        "dropbox"           "Dropbox" OFF \
+        "fontforge"         "FontForge" OFF \
+        "google-chrome"     "Google Chrome" OFF \
+        "inkscape"          "Inkscape" OFF \
+        "keybase"           "Keybase" OFF \
+        "minecraft"         "Minecraft" OFF \
+        "oracle-java"       "Oracle Java" OFF \
+        "rvm"               "Ruby Version Manager (RVM)" OFF \
+        "slack"             "Slack" OFF \
+        "spotify"           "Spotify" OFF \
+        "steam"             "Steam" OFF \
+        "synergy"           "Synergy" OFF \
+        "sublime-text"      "Sublime Text 3" OFF \
+        "vlc"               "VLC Player" OFF \
         3>&1 1>&2 2>&3)
-     
+
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        $THIRDPARTY
+        for package in $THIRDPARTY; do
+            $(echo $package | cut -d'"' -f 2)
+        done;
     else
         main
     fi
