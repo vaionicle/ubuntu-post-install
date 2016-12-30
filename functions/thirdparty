@@ -2,21 +2,21 @@
 
 dir="$(dirname "$0")"
 
-source $dir/functions/third-party/dropbox
-source $dir/functions/third-party/fontforge
-source $dir/functions/third-party/google-chrome
-source $dir/functions/third-party/inkscape
-source $dir/functions/third-party/keybase
-source $dir/functions/third-party/minecraft
-source $dir/functions/third-party/oracle-java
-source $dir/functions/third-party/rvm
-source $dir/functions/third-party/slack
-source $dir/functions/third-party/synergy
-source $dir/functions/third-party/spotify
-source $dir/functions/third-party/steam
-source $dir/functions/third-party/sublime-text
-source $dir/functions/third-party/vlc
-source $dir/functions/third-party/virtual-box
+source $dir/third-party/dropbox
+source $dir/third-party/fontforge
+source $dir/third-party/google-chrome
+source $dir/third-party/inkscape
+source $dir/third-party/keybase
+source $dir/third-party/minecraft
+source $dir/third-party/oracle-java
+source $dir/third-party/rvm
+source $dir/third-party/slack
+source $dir/third-party/synergy
+source $dir/third-party/spotify
+source $dir/third-party/steam
+source $dir/third-party/sublime-text
+source $dir/third-party/vlc
+source $dir/third-party/virtual-box
 
 # Install Third-Party Applications
 function thirdparty {
