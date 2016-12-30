@@ -10,7 +10,6 @@ function inkscape {
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 
 	# Check if already installed
-
 	show_header 'Begin '$NAME' installation'	
 	echo 'Checking if '$NAME' is already installed...'
     if [ "" == "$PKGCHECK" ]; then
