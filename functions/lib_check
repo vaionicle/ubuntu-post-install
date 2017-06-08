@@ -2,51 +2,63 @@
 
 dir="$(dirname "$0")"
 
-DEPS="$dir/data/post-install-script-dependencies.list"
+function check_dependencies {
+	_install_ppas "$dir/data/ppa.list"
 
-
-# Check if command failed, if true abort
-function check_fail {
-    EXITSTATUS=$1
-    if [[ $EXITSTATUS != 0 ]]; then
-        show_error "Something may have went wrong during the last command. Returning."
-        sleep 3s && main
-    fi
+	_check_packages "$dir/data/packages.post-install-script-dependencies.list"
 }
 
-# Check for and install required packages for this script set.
-function check_dependencies {
-    show_info "Checking dependencies..."
-    for package in $(cat $DEPS)
-    do 
-    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
-    if [ "" == "$PKGCHECK" ]; then
-        show_info $NAME 'is not installed. Proceeding'
-        show_info "This script requires '$package' and it is not present on your system."
-        show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
-        echo ''
-        case $REPLY in
-        # Positive action
-        [Yy]* ) 
-            show_warning 'Requires root privileges'
-            sudo apt-get -y install $package
-            # Failure check
-            check_fail
-            show_success "Package '$package' installed. Proceeding."
-            ;;
-        # Negative action
-        [Nn]* )
-            show_info "Exiting..."
-            exit 99
-            ;;
-        # Error
-        * )
-            show_error '\aSorry, try again.' && check
-            ;;
-        esac
-    else
-        show_success "Dependency '$package' is installed."
-    fi
-    done
-    show_info "Proceeding."
+function _check_packages {
+	show_info "Checking packages from file" $1
+
+	for package in $(cat $1); do
+
+		PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
+
+		if [ "" == "$PKGCHECK" ]; then
+			show_info $package 'is not installed. Proceeding'
+			show_warning 'Requires root privileges'
+
+			sudo apt-get -y install $package
+
+			_check_fail $?
+		fi
+
+		show_success "Dependency '$package' is installed."
+	done
+
+	show_info "Proceeding."
+}
+
+function _check_fail {
+	EXITSTATUS=$1
+	if [[ $EXITSTATUS != 0 ]]; then
+		show_error "Something may have went wrong during the last command. Returning."
+		sleep 3s
+	fi
+}
+
+function _check_fail_go_main {
+	EXITSTATUS=$1
+	if [[ $EXITSTATUS != 0 ]]; then
+		show_error "Something may have went wrong during the last command. Returning."
+		sleep 3s && main
+	fi
+}
+
+function _install_ppas {
+	show_info "Installing ppa dependencies..."
+
+	for ppa in $(cat $1); do
+		PPACHECK=$(grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep $ppa)
+
+		if [ "" == "$PPACHECK" ]; then
+			show_info "Adding ppa '$ppa'"
+			show_warning 'Requires root privileges'
+
+			sudo add-apt-repository -y -u $ppa && _check_fail $?
+		else
+			show_success "PPA '$ppa' exists."
+		fi
+	done
 }

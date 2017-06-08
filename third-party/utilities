@@ -1,0 +1,7 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+function utilities {
+    _check_packages "$dir/data/packages.utilities.list"
+}

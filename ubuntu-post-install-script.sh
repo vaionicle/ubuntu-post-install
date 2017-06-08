@@ -46,7 +46,9 @@ dir="$(dirname "$0")"
 
 #RUN
 check_dependencies
-while: do
+
+while :
+do
 	main
 done
 

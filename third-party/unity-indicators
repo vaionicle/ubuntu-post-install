@@ -1,0 +1,128 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+INDICATOR_APPS="$dir/data/unity-indicators.packages.list"
+INDICATOR_PPAS="$dir/data/unity-indicators.ppa.list"
+
+function _install_ppas_for_indicators {
+	show_info "Installing ppa dependencies..."
+
+	for ppa in $(cat $INDICATOR_PPAS); do
+
+		show_info "This script requires '$ppa' and it is not present on your system."
+
+		sudo add-apt-repository $ppa
+	done
+
+	sudo apt-get update
+}
+
+
+
+function unity_indicators {
+	_install_ppas_for_indicators
+
+
+
+# 	show_info "Checking dependencies..."
+
+# 	for package in $(cat $INDICATOR_APPS); do
+
+# 		PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
+
+# 		if [ "" == "$PKGCHECK" ]; then
+
+# 			show_info $NAME 'is not installed. Proceeding'
+# 			show_info "This script requires '$package' and it is not present on your system."
+# 			show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
+
+# 			echo ''
+# 			case $REPLY in
+# 				[Yy]* ) 
+# 					show_warning 'Requires root privileges'
+# 					sudo apt-get -y install $package
+
+# 					check_fail
+# 					show_success "Package '$package' installed. Proceeding."
+# 				;;
+# 				[Nn]* )
+# 					show_info "Exiting..."
+# 					exit 99
+# 				;;
+# 				* )
+# 				show_error '\aSorry, try again.' && check
+# 			;;
+# 			esac
+# 		else
+# 			show_success "Dependency '$package' is installed."
+# 		fi
+# 	done
+
+# 	show_info "Proceeding."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 	PACKAGE=winehq-devel
+# 	NAME="WineHQ Development"	
+#     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+
+
+# 	show_header 'Begin '$NAME' installation'
+# 	echo 'Checking if '$NAME' is already installed...'
+
+#     if [ "" == "$PKGCHECK" ]; then
+#         echo $NAME 'is not installed. Proceeding'
+
+# 		show_info 'Adding '$NAME' repository to software sources...'
+# 		show_warning 'Requires root privileges'
+# 		sudo add-apt-repository ppa:wine/wine-builds
+
+
+
+# sudo add-apt-repository ppa:jconti/recent-notifications
+# sudo add-apt-repository ppa:thebernmeister/ppa
+# sudo add-apt-repository ppa:atareao/atareao
+# sudo apt-add-repository ppa:alexmurray/indicator-sensors 
+# sudo apt-get update
+
+
+# 		show_info 'Updating repository information...'
+# 		sudo apt-get update -y
+# 	    show_success 'Done.'
+
+# 		show_info 'Installing '$NAME'...'
+# 		sudo apt-get install -y $PACKAGE
+# 		show_success 'Done.'
+# 	    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+
+# 		menu_thirdparty
+#     else
+#         # Already installed
+#         show_success $NAME 'already installed.'
+# 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+# 	    menu_thirdparty
+#     fi
+}

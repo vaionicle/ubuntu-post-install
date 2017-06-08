@@ -1,5 +1,6 @@
 iotop
 atop
+powertop
 terminator
 wireshark
 gimp
@@ -7,4 +8,4 @@ dconf-tools
 gnome-disk-utility
 gnome-tweak-tool
 ssh
-powertop
+winehq-devel
