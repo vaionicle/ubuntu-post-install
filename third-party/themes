@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Virtualbox
-function virtualbox {
+# Themes
+function themes {
 
     # Variables
     PACKAGE=virtualbox
-    VERSION="5.1"
-    NAME="VirtualBox"
+
     CODENAME=$(lsb_release -cd | grep Codename | cut -d $'\t' -f 2)
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 
@@ -17,17 +16,11 @@ function virtualbox {
     if [ "" == "$PKGCHECK" ]; then
         echo $NAME 'is not installed. Proceeding'
 
-        # Add the repository signing key to be able to verify downloaded packages
-        show_info 'Adding '$NAME' signing key to keyring...'
-        show_warning 'Requires root privileges'
 
-        wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-        show_success 'Done.'
-
-        # Add the repository
+        # Add PPA repository
         show_info 'Adding '$NAME' repository to software sources...'
         show_warning 'Requires root privileges'
-        echo "deb http://download.virtualbox.org/virtualbox/debian ${CODENAME} contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+	sudo add-apt-repository ppa:noobslab/themes
 
         # Update repository information
         show_info 'Updating repository information...'
@@ -48,3 +41,4 @@ function virtualbox {
         menu_thirdparty
     fi
 }
+

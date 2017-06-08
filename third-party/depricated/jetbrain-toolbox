@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Virtualbox
+function jetbrain-toolbox {
+
+    # Variables
+    PACKAGE=jetbrains-toolbox
+    BUILD="1.1.2143"
+    NAME="Jetbrains tool"
+
+    # Check if already installed
+    show_header 'Begin '$NAME' installation'
+	show_warning 'Requires root privileges'
+
+	show_info 'Downloading '$NAME'-'$VERSION' ...'
+
+	wget -q https://download.jetbrains.com/toolbox/$PACKAGE-$BUILD.tar.gz
+
+	sudo mv $PACKAGE-$BUILD.tar.gz /opt/$PACKAGE-$BUILD.tar.gz
+	cd /opt/
+	sudo tar -zxvf $PACKAGE-$BUILD.tar.gz
+	sudo rm $PACKAGE-$BUILD.tar.gz
+	sudo cd $PACKAGE-$BUILD/
+	/opt/$PACKAGE-$BUILD/$PACKAGE
+	show_success 'Done.'
+
+	whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+	thirdparty
+}

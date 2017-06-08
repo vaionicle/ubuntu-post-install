@@ -20,15 +20,15 @@ function dropbox {
 
 		# Download Debian file that matches system architecture
 		case `uname -i` in
-		    i386|i486|i586|i686)
-		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_${VERSION}_i386.deb
-		        ;;
-		    x86_64)
-		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_${VERSION}_amd64.deb
-		        ;;
-		    *)
-		        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-		        ;;
+			i386|i486|i586|i686)
+				curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_${VERSION}_i386.deb
+				;;
+			x86_64)
+				curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_${VERSION}_amd64.deb
+				;;
+			*)
+				whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+				;;
 		esac
 
 		# Install package(s)
@@ -40,14 +40,12 @@ function dropbox {
 		# Cleanup and finish
 		rm dropbox*.deb
 
-		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
-		thirdparty
+		# menu_thirdparty
 	else
-		# Already installed
 		show_success $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
-		thirdparty
+		# menu_thirdparty
 	fi
 }

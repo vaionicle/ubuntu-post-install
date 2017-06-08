@@ -1,3 +1,6 @@
 software-properties-common
 whiptail
 xterm
+curl
+lynx
+git

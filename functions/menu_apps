@@ -1,0 +1,44 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+source $dir/third-party/dropbox
+source $dir/third-party/google-chrome
+source $dir/third-party/slack
+source $dir/third-party/spotify
+source $dir/third-party/sublime-text
+source $dir/third-party/virtual-box
+source $dir/third-party/vlc
+source $dir/third-party/wine
+
+# Install Third-Party Applications
+function menu_apps {
+    eval `resize`
+
+    THIRDPARTY=$(whiptail \
+        --title "Third-Party Installation" \
+        --ok-button "Install" \
+        --cancel-button "Go Back" \
+        --checklist "\nWhat third-party software would you like to install?" \
+        $LINES $COLUMNS $(( $LINES - 10 )) \
+        "dropbox"           "Dropbox" ON \
+        "google-chrome"     "Google Chrome" ON \
+        "slack"             "Slack" ON \
+        "spotify"           "Spotify" ON \
+        "sublime-text"      "Sublime Text 3" ON \
+        "virtualbox"        "Virtual Box" ON \
+        "vlc"               "VLC Player" ON \
+        "wineHQ"            "WineHQ Development" ON \
+        3>&1 1>&2 2>&3)
+
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        for package in $THIRDPARTY; do
+            $(echo $package | cut -d'"' -f 2)
+        done;
+
+        main
+    else
+        main
+    fi
+}

@@ -29,84 +29,25 @@ clear
 
 dir="$(dirname "$0")"
 
-. $dir/functions/check
-. $dir/functions/cleanup
-. $dir/functions/codecs
-. $dir/functions/configure
-. $dir/functions/development
-. $dir/functions/favs
-. $dir/functions/gnome
-. $dir/functions/thirdparty
-. $dir/functions/update
-. $dir/functions/utilities
+. $dir/functions/lib_messages
+. $dir/functions/lib_check
 
-#----- Fancy Messages -----#
-show_error(){
-echo -e "\033[1;31m$@\033[m" 1>&2
-}
-show_info(){
-echo -e "\033[1;32m$@\033[0m"
-}
-show_warning(){
-echo -e "\033[1;33m$@\033[0m"
-}
-show_question(){
-echo -e "\033[1;34m$@\033[0m"
-}
-show_success(){
-echo -e "\033[1;35m$@\033[0m"
-}
-show_header(){
-echo -e "\033[1;36m$@\033[0m"
-}
-show_listitem(){
-echo -e "\033[0;37m$@\033[0m"
-}
+# . $dir/functions/cleanup
+# . $dir/functions/codecs
+# . $dir/functions/configure
+# . $dir/functions/development
+# . $dir/functions/favs
+# . $dir/functions/gnome
+# . $dir/functions/update
+# . $dir/functions/utilities
 
-# Main
-function main {
-    eval `resize`
-    MAIN=$(whiptail \
-        --notags \
-        --title "Ubuntu Post-Install Script" \
-        --menu "\nWhat would you like to do?" \
-        --cancel-button "Quit" \
-        $LINES $COLUMNS $(( $LINES - 12 )) \
-        update      'Perform system update' \
-        favs        'Install preferred applications' \
-        utilities   'Install preferred system utilities' \
-        development 'Install preferred development tools' \
-        codecs      'Install Ubuntu Restricted Extras' \
-        thirdparty  'Install third-party applications' \
-        gnome       'Install latest GNOME software' \
-        configure   'Configure system' \
-        cleanup     'Cleanup the system' \
-        3>&1 1>&2 2>&3)
-     
-    exitstatus=$?
-    if [ $exitstatus = 0 ]; then
-        $MAIN
-    else
-        quit
-    fi
-}
-
-# Quit
-function quit {
-    if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
-        echo "Exiting..."
-        show_info 'Thanks for using!'
-        exit 99
-    else
-        main
-    fi
-}
+. $dir/functions/menu_apps
+. $dir/functions/menu_main
 
 #RUN
 check_dependencies
-while :
-do
-  main
+while: do
+	main
 done
 
 #END OF SCRIPT

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# VLC
-function vlc {
+
+# WineHQ
+function wineHQ {
 
 	# Variables
-	PACKAGE=vlc
-	PPANAME=ppa:videolan/master-daily
-	NAME="VLC Player"
+	PACKAGE=winehq-devel
+	NAME="WineHQ Development"	
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 
-	# Install
+
 	# Check if already installed
 	show_header 'Begin '$NAME' installation'
 	echo 'Checking if '$NAME' is already installed...'
@@ -17,10 +17,10 @@ function vlc {
     if [ "" == "$PKGCHECK" ]; then
         echo $NAME 'is not installed. Proceeding'
 
-		# Add repository
+		# Add the repository
 		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'
-		sudo add-apt-repository -y $PPANAME
+		sudo add-apt-repository ppa:wine/wine-builds
 
 		# Update repository information
 		show_info 'Updating repository information...'
@@ -30,13 +30,11 @@ function vlc {
 		# Install
 		show_info 'Installing '$NAME'...'
 		sudo apt-get install -y $PACKAGE
-
-	    # Done
-	    show_success 'Done.'
+		show_success 'Done.'
 	    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+
 		menu_thirdparty
     else
-
         # Already installed
         show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78

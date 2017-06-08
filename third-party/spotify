@@ -36,12 +36,12 @@ function spotify {
 		sudo apt-get install -y $PACKAGE
 		show_success 'Done.'
 	    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
-		thirdparty
+		menu_thirdparty
     else
 
         # Already installed
         show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
-	    thirdparty
+	    menu_thirdparty
     fi
 }

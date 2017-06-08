@@ -2,7 +2,7 @@
 
 dir="$(dirname "$0")"
 
-DEPS="$dir/data/dependencies.list"
+DEPS="$dir/data/post-install-script-dependencies.list"
 
 
 # Check if command failed, if true abort
